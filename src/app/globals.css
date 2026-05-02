@@ -1,35 +1,134 @@
 @import "tailwindcss";
 
-:root {
+@theme {
   /* Bright Studio brand palette */
-  --color-bright-yellow: #FFD60A;
-  --color-bright-black: #0A0A0A;
-  --color-bright-cream: #FAF8F3;
-  --color-bright-cobalt: #1A4FE0;
-  --color-bright-coral: #FF6B6B;
+  --color-cream: #FAF8F3;
+  --color-cream-deep: #F4EFE3;
+  --color-ink: #0A0A0A;
+  --color-sun: #FFD60A;
+  --color-sun-deep: #F5C400;
+  --color-cobalt: #1A4FE0;
+  --color-coral: #FF6B6B;
 
-  /* Defaults */
-  --background: var(--color-bright-cream);
-  --foreground: var(--color-bright-black);
+  /* Fonts (variables come from next/font in layout.tsx) */
+  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), Georgia, serif;
+
+  /* Brutalist drop shadows */
+  --shadow-brut: 6px 6px 0 0 #0A0A0A;
+  --shadow-brut-lg: 10px 10px 0 0 #0A0A0A;
+  --shadow-brut-sm: 3px 3px 0 0 #0A0A0A;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  --color-yellow: var(--color-bright-yellow);
-  --color-black: var(--color-bright-black);
-  --color-cream: var(--color-bright-cream);
-  --color-cobalt: var(--color-bright-cobalt);
-  --color-coral: var(--color-bright-coral);
-
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  background: var(--color-cream);
+  color: var(--color-ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Display family — used on big headlines */
+.h-display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.serif-it {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Subtle paper grain overlay */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(rgba(10, 10, 10, 0.035) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* Marquee scroll */
+@keyframes scrollx {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: scrollx 40s linear infinite;
+}
+
+/* Dot blink */
+@keyframes blink {
+  0%, 60%   { opacity: 1; }
+  70%, 100% { opacity: 0.25; }
+}
+.blink {
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+/* Slow spin (sun, sparkle) */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.spin-slow {
+  animation: spin-slow 18s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Brutalist card hover lift */
+.brut-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.brut-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 14px 14px 0 0 #0A0A0A;
+}
+
+/* Animated underline link */
+.ulink {
+  background-image: linear-gradient(#0A0A0A, #0A0A0A);
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  background-position: 0 100%;
+  transition: background-size 0.35s ease;
+}
+.ulink:hover {
+  background-size: 0 2px;
+  background-position: 100% 100%;
+}
+
+/* Asterisk rotation on group hover */
+.ast {
+  display: inline-block;
+  transition: transform 0.4s ease;
+}
+.group:hover .ast {
+  transform: rotate(180deg);
+}
+
+/* Yellow text selection */
+::selection {
+  background: var(--color-sun);
+  color: var(--color-ink);
+}
+
+/* Tabular numerals for prices */
+.tnum {
+  font-variant-numeric: tabular-nums;
 }
