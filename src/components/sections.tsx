@@ -38,7 +38,7 @@ export function Nav() {
           <a href="#services" className="ulink">Services</a>
           <a href="#work" className="ulink">Work</a>
           <a href="#manifesto" className="ulink">Manifesto</a>
-          <a href="#assets" className="ulink">Free</a>
+          <a href="/loved" className="ulink">Loved</a>
           <a
             href="#contact"
             className="inline-flex items-center gap-2 bg-ink text-cream px-4 py-2 rounded-full font-medium hover:bg-ink/90"
