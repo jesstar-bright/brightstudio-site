@@ -22,6 +22,27 @@ type Item = {
   price?: string;
 };
 
+function slug(s: string) {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function withUtm(href: string, itemName: string) {
+  if (!href.startsWith("http")) return href;
+  try {
+    const url = new URL(href);
+    url.searchParams.set("utm_source", "brightstudio.build");
+    url.searchParams.set("utm_medium", "referral");
+    url.searchParams.set("utm_campaign", "loved");
+    url.searchParams.set("utm_content", slug(itemName));
+    return url.toString();
+  } catch {
+    return href;
+  }
+}
+
 type Category = {
   slug: string;
   num: string;
@@ -311,9 +332,10 @@ function CategorySection({ category }: { category: Category }) {
 
 function ItemCard({ item }: { item: Item }) {
   const isExternal = item.href.startsWith("http");
+  const href = isExternal ? withUtm(item.href, item.name) : item.href;
   return (
     <a
-      href={item.href}
+      href={href}
       target={isExternal ? "_blank" : undefined}
       rel={isExternal ? "noopener noreferrer" : undefined}
       className="brut-card group relative block rounded-[22px] border-2 border-ink shadow-brut bg-cream p-6 sm:p-7"
