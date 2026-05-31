@@ -6,9 +6,13 @@ type IconProps = {
   strokeWidth?: number;
 } & Omit<SVGProps<SVGSVGElement>, "size">;
 
-const icon =
-  (children: React.ReactNode, viewBox = "0 0 24 24") =>
-  ({ size = 20, className = "", strokeWidth = 2, ...rest }: IconProps) => (
+const icon = (children: React.ReactNode, viewBox = "0 0 24 24") => {
+  const Icon = ({
+    size = 20,
+    className = "",
+    strokeWidth = 2,
+    ...rest
+  }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
@@ -25,6 +29,9 @@ const icon =
       {children}
     </svg>
   );
+  Icon.displayName = "Icon";
+  return Icon;
+};
 
 export const Sparkle = icon(
   <>
