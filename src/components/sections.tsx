@@ -355,12 +355,24 @@ type Project = {
   tag: string;
   blurb: string;
   accent: string;
-  shape: "orb" | "wave" | "paw" | "cards" | "leaf" | "spark";
+  shape: "orb" | "wave" | "paw" | "cards" | "leaf" | "spark" | "chat";
   sub?: string;
+  href?: string;
+  status?: "beta";
 };
 
 export function Work() {
   const projects: Project[] = [
+    {
+      name: "The Group Chat: IRL",
+      tag: "Social app",
+      blurb:
+        "A living calendar for a friend group — subscribe once, and every plan, photo gallery, and trip lands in one place.",
+      accent: "#2F7CC0",
+      shape: "chat",
+      href: "https://jesstar-bright.github.io/the-group-chat-irl/",
+      status: "beta",
+    },
     {
       name: "Pax",
       tag: "AI Agent",
@@ -422,7 +434,7 @@ export function Work() {
             </h2>
           </div>
           <p className="mono text-[12px] uppercase tracking-[0.18em] text-ink/60 max-w-[280px]">
-            ↘ Six projects. Real problems. Real humans behind each one.
+            ↘ Seven projects. Real problems. Real humans behind each one.
           </p>
         </div>
 
@@ -438,9 +450,12 @@ export function Work() {
 
 function ProjectTile({ p, i }: { p: Project; i: number }) {
   const [hover, setHover] = useState(false);
+  const external = Boolean(p.href);
   return (
     <a
-      href="#contact"
+      href={p.href ?? "#contact"}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       className="brut-card group relative block rounded-[22px] border-2 border-ink shadow-brut bg-cream overflow-hidden"
@@ -458,6 +473,17 @@ function ProjectTile({ p, i }: { p: Project; i: number }) {
         <div className="absolute top-3 right-3 grid place-items-center w-9 h-9 rounded-full bg-cream border-2 border-ink transition-transform group-hover:rotate-45">
           <ArrowUpRight size={16} strokeWidth={2.4} />
         </div>
+        {p.status === "beta" && (
+          <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 bg-cream border-2 border-ink rounded-full pl-2 pr-2.5 py-1 shadow-brut-sm">
+            <span className="relative inline-flex">
+              <span className="w-2 h-2 rounded-full bg-coral" />
+              <span className="absolute inset-0 w-2 h-2 rounded-full bg-coral blink" />
+            </span>
+            <span className="mono text-[10px] uppercase tracking-[0.16em]">
+              Live beta
+            </span>
+          </div>
+        )}
       </div>
       <div className="p-5 sm:p-6 flex items-start justify-between gap-4">
         <div>
@@ -553,6 +579,22 @@ function ProjectShape({
             fill="none"
             strokeWidth="2"
           />
+        </g>
+      </svg>
+    );
+  if (shape === "chat")
+    return (
+      <svg viewBox="0 0 200 120" className="absolute inset-0 w-full h-full">
+        <g style={common} stroke="#0A0A0A" strokeWidth="2" strokeLinejoin="round">
+          <rect x="34" y="28" width="92" height="46" rx="12" fill="#FAF8F3" />
+          <path d="M52 72 L52 90 L34 72 Z" fill="#FAF8F3" />
+          <rect x="96" y="56" width="72" height="40" rx="12" fill={accent} />
+          <path d="M150 94 L150 110 L166 94 Z" fill={accent} />
+          <g stroke="none">
+            <circle cx="114" cy="76" r="4" fill="#FAF8F3" />
+            <circle cx="132" cy="76" r="4" fill="#FAF8F3" />
+            <circle cx="150" cy="76" r="4" fill="#FAF8F3" />
+          </g>
         </g>
       </svg>
     );
